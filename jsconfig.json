@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2019",
+    "types": [
+      "node",
+      "@wdio/globals/types",
+      "expect-webdriverio"
+    ]
+  },
+  "include": [
+    "**/*.js",
+    "**/*.json",
+    "wdio.conf.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
