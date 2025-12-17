@@ -23,4 +23,13 @@ describe("first E2E test suite", () => {
     await links[0].click();
     await expect(browser).toHaveTitle("Services | EPAM");
   });
+
+  it("should redirect to Contact Page when clicking it", async () => {
+    await browser.url("/");
+    const contactUs = await $$(".cta-button__text");
+    await contactUs[1].click();
+    await expect(browser).toHaveTitle(
+      "Learn more about EPAM and Contact Us | EPAM"
+    );
+  });
 });
