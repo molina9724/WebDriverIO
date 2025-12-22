@@ -77,12 +77,23 @@ describe("first E2E test suite", () => {
     await requiredFields.forEach((element) => element.click());
     const validationField = await $$(".validation-field");
     expect(validationField.length).toEqual(6);
-    for (const element of requiredFields) {
-      await expect(element).toBeDisplayed();
-      const color = await element.getCSSProperty("color");
+    const errorMessage = "This is a required field";
+    for (let i = 0; i < requiredFields.length; i++) {
+      await expect(requiredFields[i]).toBeDisplayed();
+      const color = await requiredFields[i].getCSSProperty("color");
       expect(color.parsed.hex).toEqual("#ff4d40");
-      const border = await element.getCSSProperty("border-bottom-color");
+
+      const border = await requiredFields[i].getCSSProperty(
+        "border-bottom-color"
+      );
       expect(border.parsed.hex).toEqual("#ff4d40");
+
+      const parent = await requiredFields[i].parentElement();
+      const validationText = await parent.$(
+        ".validation-tooltip .validation-text"
+      );
+      const elementText = await validationText.getText();
+      expect(elementText).toEqual(errorMessage);
     }
   });
 });
