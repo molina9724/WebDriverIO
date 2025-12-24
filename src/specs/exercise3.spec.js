@@ -13,7 +13,7 @@
 
 describe("WebDriverIO Exercise 3 - Advanced Commands", () => {
   describe("Mouse Actions - the-internet.herokuapp.com", () => {
-    before(async () => {
+    beforeEach(async () => {
       await browser.url("https://the-internet.herokuapp.com");
     });
 
@@ -63,16 +63,33 @@ describe("WebDriverIO Exercise 3 - Advanced Commands", () => {
 
     it("should execute synchronous JavaScript", async () => {
       // Use execute() to scroll to the footer or retrieve a computed style.
+      const footer = await $(".footer-container");
+      //await footer.scrollIntoView(); // WebDriverIO's built-in method
+      await browser.execute((el) => {
+        el.scrollIntoView({ behavior: "smooth", block: "end" });
+      }, footer);
     });
 
     it("should execute asynchronous JavaScript", async () => {
       // Use executeAsync() with a callback to simulate a delayed operation.
+      await browser.executeAsync(function (done) {
+        setTimeout(() => {
+          document.fonts.ready.then(() => {
+            done();
+          });
+        }, 2000);
+      });
     });
   });
 
   describe("Custom Waits - EPAM.com", () => {
     it("should wait for a custom condition", async () => {
       // Use waitUntil() to poll for a specific DOM state or network idle.
+      await browser.url("https://the-internet.herokuapp.com");
+      await $("a[href='/dynamic_loading']").click();
+      await $("a[href='/dynamic_loading/1']").click();
+      await $("#start button").click();
+      await browser.waitUntil(async () => await $("#finish").isDisplayed());
     });
   });
 
