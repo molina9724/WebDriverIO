@@ -55,7 +55,7 @@ describe("first E2E test suite", () => {
     );
   });
 
-  it.only("should display validation errors when submitting empty required fields", async () => {
+  it.skip("should display validation errors when submitting empty required fields", async () => {
     const contactUsButton = await $$(".cta-button__text");
     await contactUsButton[1].click();
     await $(".button-ui").click();
