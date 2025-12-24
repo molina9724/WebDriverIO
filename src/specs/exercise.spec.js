@@ -13,11 +13,7 @@
  */
 
 describe("WebDriverIO Matchers Exercise - EPAM.com", () => {
-  before(async () => {
-    await browser.maximizeWindow();
-    await browser.url("/");
-    await $("#onetrust-accept-btn-handler").click();
-  });
+  before(async () => {});
 
   it("should handle Visibility and Existence assertions", async () => {
     // 1. Assert that the EPAM logo is displayed

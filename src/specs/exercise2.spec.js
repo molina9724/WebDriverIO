@@ -13,35 +13,33 @@
  */
 
 describe("WebDriverIO Exercise 2 - EPAM.com", () => {
-  before(async () => {
-    await browser.maximizeWindow();
-    await browser.url("/");
-    await $("#onetrust-accept-btn-handler").click();
+  before(async () => {});
+
+  it("should allow searching for queries", async () => {
+    // Implement search workflow: open search, type 'automation', append ' testing', and verify the canonical value.
+    await $(".header-search__button").click();
+    await $("#new_form_search").setValue("automation");
+    await $("#new_form_search").addValue(" testing");
+    const text = await $("#new_form_search").getValue();
+    expect(text).toEqual("automation testing");
   });
 
-  it("should practice setValue and addValue", async () => {
-    // 1. Open the search
-    // 2. Use setValue() to type "automation" in the search input
-    // 3. Use addValue() to append " testing" to the existing text
-    // 4. Get the input value and verify it equals "automation testing"
+  it("should verify element visibility and existence", async () => {
+    // validate the display state of the logo and presence of it.
+    const logo = $(".header__logo-light");
+    expect(logo).toBeExisting();
+    expect(logo).toBeDisplayed();
   });
 
-  it("should practice isDisplayed and isExisting", async () => {
-    // 1. Check if the EPAM logo isDisplayed() - store result in a variable
-    // 2. Check if '#wrapper' isExisting() - store result in a variable
-    // 3. Check if a fake element '.does-not-exist' isExisting()
-    // 4. Use console.log or expect to verify the boolean values
+  it("should wait for search input to be displayed", async () => {
+    // Ensure the search input is visible before attempting interaction.
+    await $(".header-search__button").click();
+    await $("#new_form_search").waitForDisplayed();
+    expect(await $("#new_form_search")).toBeDisplayed;
   });
 
-  it("should practice waitForDisplayed", async () => {
-    // 1. Click the search button to open search panel
-    // 2. Use waitForDisplayed() on the search input before interacting
-    // 3. Type something in the search field
-  });
-
-  it("should practice waitForExist", async () => {
-    // 1. Navigate to a page or trigger an action that loads new content
-    // 2. Use waitForExist() to wait for a specific element to appear in DOM
-    // 3. Once it exists, check if it's also displayed
+  it("should wait for steady state elements", async () => {
+    // Wait for the footer to be present in the DOM before asserting its state.
+    expect(await $("footer").waitForExist());
   });
 });

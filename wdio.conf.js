@@ -20,7 +20,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: ["src/specs/**/exercise.spec.js"],
+  specs: ["src/specs/**/**.spec.js"],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -184,8 +184,14 @@ exports.config = {
    * @param {Array.<String>} specs        List of spec file paths that are to be run
    * @param {object}         browser      instance of created browser/device session
    */
-  // before: function (capabilities, specs) {
-  // },
+  before: async function (capabilities, specs) {
+    // Move window to the left screen (assuming typical dual monitor setup)
+    // You may need to adjust the coordinates (-1920, 0) based on your specific resolution and setup.
+    await browser.setWindowRect(-1920, 0, 1200, 1000);
+    await browser.maximizeWindow();
+    await browser.url("/");
+    await $("#onetrust-accept-btn-handler").click();
+  },
   /**
    * Runs before a WebdriverIO command gets executed.
    * @param {string} commandName hook command name

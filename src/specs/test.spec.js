@@ -1,8 +1,5 @@
 describe("first E2E test suite", () => {
-  beforeEach(async () => {
-    await browser.maximizeWindow();
-    await browser.url("/");
-  });
+  beforeEach(async () => {});
 
   it("should open wwww.epam.com", async () => {
     const expectedTitle =
