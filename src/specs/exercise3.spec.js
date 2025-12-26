@@ -90,21 +90,48 @@ describe("WebDriverIO Exercise 3 - Advanced Commands", () => {
       await $("a[href='/dynamic_loading/1']").click();
       await $("#start button").click();
       await browser.waitUntil(async () => await $("#finish").isDisplayed());
+      expect($("#finish")).toBeDisplayed();
     });
   });
 
   describe("Cookie Management", () => {
     it("should set, retrieve, and delete cookies", async () => {
       // Use setCookies() to create a test cookie.
+      await browser.setCookies([{ name: "customCookie", value: "50" }]);
+      await browser.pause(1000);
       // Use getCookies() to verify it exists.
+      const customCookie = await browser.getCookies(["customCookie"]);
+      await browser.pause(1000);
       // Use deleteCookies() to remove it and confirm deletion.
+      await browser.deleteCookies(["customCookie"]);
+      await browser.pause(1000);
+
+      const allCookies = await browser.getAllCookies();
+      const allCookiesNames = allCookies.map((cookie) => cookie.name);
+      expect(allCookiesNames).not.toContain("customCookie");
     });
   });
 
   describe("Element Properties", () => {
     it("should retrieve element attributes and properties", async () => {
+      await browser.url("https://the-internet.herokuapp.com");
+      await $("a[href='/checkboxes']").click();
+
       // Use getAttribute() to get an element's 'href' or 'class'.
+      const checkbox = await $("input[type='checkbox']");
+      const type = await checkbox.getAttribute("type");
+      expect(type).toEqual("checkbox");
+
       // Use getProperty() to get a live DOM property like 'checked' or 'value'.
+      const allCheckboxes = await $$("input[type='checkbox']");
+      expect(await allCheckboxes[0].getProperty("checked")).toBe(false);
+      expect(await allCheckboxes[1].getProperty("checked")).toBe(true);
+
+      for (let index = 0; index < allCheckboxes.length; index++) {
+        await allCheckboxes[index].click();
+      }
+      expect(await allCheckboxes[0].getProperty("checked")).toBe(true);
+      expect(await allCheckboxes[1].getProperty("checked")).toBe(false);
     });
   });
 });
